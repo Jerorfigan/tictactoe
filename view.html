@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+	<title>Stick Figure Test</title>
+	<style>
+		#canvasContainer{
+			position: relative;
+			width: 600px;
+			height: 600px;
+			margin: auto;
+			border: 1px solid black;
+		}
+	</style>
+</head>
+<body>
+	<div id="canvasContainer">
+		<canvas id="canvas" width="600" height="600">Your browser does not support canvas</canvas>
+	</div>
+	<!-- ////////////////////////////////////////// -->
+	<!-- ////////////////////////////////////////// -->
+	<!-- GAME ENGINE FILES -->
+	<!-- ////////////////////////////////////////// -->
+	<!-- ////////////////////////////////////////// -->
+
+	<!-- Settings -->
+	<script src="Engine/Settings/EngineSettings.js"></script>
+	<!-- Graphics -->
+	<script src="Engine/Graphics/Point.js"></script>
+	<script src="Engine/Graphics/BoundingBox.js"></script>
+	<script src="Engine/Graphics/GraphicsLibrary.js"></script>
+	<!-- Attributes -->
+	<script src="Engine/Attributes/Render.js"></script>
+	<script src="Engine/Attributes/Update.js"></script>
+	<!-- Managers -->
+	<script src="Engine/Managers/EventManager.js"></script>
+	<script src="Engine/Managers/ObjectManager.js"></script>
+	<script src="Engine/Managers/GameManager.js"></script>
+	<!-- Libraries -->
+	<script src="Engine/Libraries/Utility.js"></script>
+	<script src="Engine/Libraries/Input.js"></script>
+	<!-- Driver -->
+	<script src="Engine/Driver.js"></script>
+
+	<!-- ////////////////////////////////////////// -->
+	<!-- ////////////////////////////////////////// -->
+	<!-- GAME FILES -->
+	<!-- ////////////////////////////////////////// -->
+	<!-- ////////////////////////////////////////// -->
+
+	<!-- Settings -->
+	<script src="Game/Settings/Settings.js"></script>
+	<!-- Game Objects -->
+	<script src="Game/Objects/TestCircle.js"></script>
+	<script src="Game/Objects/GameBoard.js"></script>
+	<!-- Game Graphics Objects -->
+	<script src="Game/GraphicsObjects/GameBoardGraphics.js"></script>
+	<!-- Game Managers -->
+	<script src="Game/Managers/TurnManager.js"></script>
+	<script src="Game/Managers/GameBoardManager.js"></script>
+	<script src="Game/Managers/GameplayManager.js"></script>
+	<script src="Game/Managers/InitGameManager.js"></script>
+	<!-- Game Graphics Managers -->
+	<!-- Game Bootstrapper -->
+	<script src="Game/bootstrapper.js"></script>
+</body>
+</html>
