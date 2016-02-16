@@ -27,11 +27,15 @@ if(!window.ttt) window.ttt = {};
 	};
 
 	GameplayManager.prototype.isGameOver = function(){
-		return this._boardManager.boardHasFullColRowOrDiag();
+		return this._boardManager.boardHasFullColRowOrDiag() || this._boardManager.isBoardFull();
 	};
 
 	GameplayManager.prototype.handleGameEnd = function(){
-		console.log("Game over. " + this._boardManager.getFullColRowOrDiagMark() + " wins.");
+		if(this._boardManager.boardHasFullColRowOrDiag()){
+			console.log("Game over. " + this._boardManager.getFullColRowOrDiagMark() + " wins.");
+		}else{
+			console.log("Game over. Draw.");
+		}
 	};
 
 	window.ttt.GameplayManager = GameplayManager;

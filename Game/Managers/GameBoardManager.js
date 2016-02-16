@@ -77,6 +77,8 @@ if(!window.ttt) window.ttt = {};
 			this._boardObj._boardHasFullColRowOrDiag = true;
 			this._boardObj._fullColRowOrDiagMark = mark;
 		}
+		// Update mark count, which we'll use to determine when board is full
+		this._boardObj._totalMarkCnt++;
 	};
 
 	GameBoardManager.prototype.boardHasFullColRowOrDiag = function(){
@@ -96,7 +98,7 @@ if(!window.ttt) window.ttt = {};
 	};
 
 	GameBoardManager.prototype.isBoardFull = function(){
-		return this._boardObj._isBoardFull;
+		return this._boardObj._totalMarkCnt == window.ttt.settings.BOARD_ROWS * window.ttt.settings.BOARD_COLS;
 	};
 
 	GameBoardManager.prototype.getBoardString = function(){

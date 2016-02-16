@@ -11,7 +11,7 @@ if(!window.ttt) window.ttt = {};
 		this._rows = null;
 		this._boardHasFullColRowOrDiag = false;
 		this._fullColRowOrDiagMark = null;
-		this._isBoardFull = false;
+		this._totalMarkCnt = 0;
 	};
 
 	// Template for box data
