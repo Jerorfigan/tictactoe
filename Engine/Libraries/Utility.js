@@ -9,6 +9,7 @@ if(!window.sft) window.sft = {};
 	/*        Object Methods         */
 	/*********************************/
 	Utility.prototype.objects = {};
+	
 	Utility.prototype.objects.clone = function clone(obj){
 	    var copy;
 
@@ -41,6 +42,13 @@ if(!window.sft) window.sft = {};
 	    }
 
 	    throw new Error("Unable to copy obj! Its type isn't supported.");
+	};
+
+	Utility.prototype.objects.inherit = function(child, parent){
+		function Dummy(){} 
+		Dummy.prototype = parent.prototype; 
+		child.prototype = new Dummy(); 
+		child.prototype.constructor = child;
 	};
 
 	window.sft.util = new Utility();
