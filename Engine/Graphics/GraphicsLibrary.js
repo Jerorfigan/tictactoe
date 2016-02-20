@@ -147,5 +147,6 @@ if(!window.sft) window.sft = {};
 		this._ctx.restore();
 	};
 
+	window.sft.GraphicsLibrary = GraphicsLibrary;
 	window.sft.fx = new GraphicsLibrary();
 })();
