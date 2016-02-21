@@ -12,6 +12,10 @@ if(!window.sft) window.sft = {};
 
 	};
 
+	ObjectManager.prototype.has = function(key){
+		return !!_objects[key];
+	};
+
 	ObjectManager.prototype.get = function(key){
 		if(!_objects[key]) throw "unknown key";
 		return _objects[key].data;
