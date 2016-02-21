@@ -50,6 +50,7 @@ if(!window.ttt) window.ttt = {};
 	/***************/
 	var GameBoardManager = function(){
 		this._boardObj = new window.ttt.GameBoard();
+		window.sft.objMgr.track("board", this._boardObj);
 		_initBoard.call(this, this._boardObj);
 	};
 
