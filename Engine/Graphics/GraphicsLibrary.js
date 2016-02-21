@@ -24,6 +24,43 @@ if(!window.sft) window.sft = {};
 	/*
 		settings = 
 			{
+				img: new Image(), // HTML Img node
+				centerPoint: new window.sft.Point(10,10), // center point of clipped image that governs placement, default is geometric center
+				target: new window.sft.Point(300, 200), // image rendered such that centerPoint of image aligns with target on canvas
+				clippingRect: new window.sft.BoundingBox( // The clipping rectangle to use to determine which part of the src image to draw, 
+					new window.sft.Point(10,10),		  // defualt is no clipping
+					new window.sft.Point(50,50)
+				),
+				scale: 1.2 // the factor to scale the image by, default 1.0
+			}
+	*/
+	GraphicsLibrary.prototype.drawImage = function(settings){
+		this._ctx.save();
+
+		var clippingRect = settings.clippingRect ? 
+				settings.clippingRect : 
+				new window.sft.BoundingBox(new window.sft.Point(0,0), new window.sft.Point(settings.img.width, settings.img.height)),
+			imgWidth = clippingRect.bottomRight().x() - clippingRect.topLeft().x(),
+			imgHeight = clippingRect.bottomRight().y() - clippingRect.topLeft().y(),
+			centerPoint = settings.centerPoint ? settings.centerPoint : new window.sft.Point(imgWidth / 2, imgHeight / 2),
+			scale = settings.scale ? settings.scale : 1.0;
+		this._ctx.drawImage(
+			settings.img, 
+			clippingRect.topLeft().x(), 
+			clippingRect.topLeft().y(), 
+			imgWidth, 
+			imgHeight,
+			settings.target.x() - centerPoint.x() * scale,
+			settings.target.y() - centerPoint.y() * scale, 
+			imgWidth * scale, 
+			imgHeight * scale);
+
+		this._ctx.restore();
+	};
+
+	/*
+		settings = 
+			{
 				center: new window.sft.Point(100,100), // center point of circle
 				radius: 10, // radius of circle in px
 				lineWidth: 2, // line width of circle
