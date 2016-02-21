@@ -11,6 +11,7 @@ if(!window.sft) window.sft = {};
 	Point.prototype.y = function(newY){ if(!!newY){ this._y = newY; }else{ return this._y; }};
 
 	Point.prototype.toString = function(){ return "<" + this._x + "," + this._y + ">"; };
+	Point.prototype.add = function(otherPoint){ return new Point(this._x + otherPoint._x, this._y + otherPoint._y); };
 
 	window.sft.Point = Point;
 })();
