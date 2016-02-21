@@ -11,6 +11,7 @@ if(!window.sft) window.sft = {};
 	};
 
 	GameManager.prototype.draw = function(){
+		window.sft.fx.clearFrame();
 		var renderList = window.sft.objMgr.getAllWithClassOrAttr("basic", "_attrRender");
 		renderList.forEach(function(obj){ obj._attrRender.render(); });
 	};
