@@ -6,6 +6,17 @@ if(!window.sft) window.sft = {};
 		this._ctx = canvas.getContext("2d");
 	};
 
+	// Getters
+	GraphicsLibrary.prototype.canvas = function(){ return this._canvas; };
+
+	GraphicsLibrary.prototype.windowCoords2canvasPoint = function(windowX, windowY){
+		var canvasBoundingRect = this._canvas.getBoundingClientRect();
+		return new window.sft.Point(
+			windowX - canvasBoundingRect.left,
+			windowY - canvasBoundingRect.top
+		);
+	};
+
 	GraphicsLibrary.prototype.clearFrame = function(){
 		this._ctx.clearRect(0, 0, window.sft.EngineSettings.CANVAS_WIDTH_PX, window.sft.EngineSettings.CANVAS_HEIGHT_PX);
 	};
