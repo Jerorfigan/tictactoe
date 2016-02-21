@@ -4,9 +4,9 @@ if(!window.ttt) window.ttt = {};
 
 	function _initBoard(boardObj){
 		// Init board data
-		for(var col = 1; col <= window.ttt.settings.BOARD_COLS; col++){
+		for(var col = 1; col <= this._boardObj._cols; col++){
 			var colData = [];
-			for(var row = 1; row <= window.ttt.settings.BOARD_ROWS; row++){
+			for(var row = 1; row <= this._boardObj._rows; row++){
 				var newBoxData = window.sft.util.objects.clone(window.ttt.GameBoard.prototype.boxData);
 				colData.push(
 					newBoxData
@@ -16,16 +16,16 @@ if(!window.ttt) window.ttt = {};
 		}
 
 		// Init row and col meta data
-		for(var col = 1; col <= window.ttt.settings.BOARD_COLS; col++){
+		for(var col = 1; col <= this._boardObj._cols; col++){
 			var colMetaDatum = window.sft.util.objects.clone(window.ttt.GameBoard.prototype.rowColDiagMetaData);
 			boardObj._colMetaData.push(colMetaDatum);
 		}
-		for(var row = 1; row <= window.ttt.settings.BOARD_ROWS; row++){
+		for(var row = 1; row <= this._boardObj._rows; row++){
 			var rowMetaDatum = window.sft.util.objects.clone(window.ttt.GameBoard.prototype.rowColDiagMetaData);
 			boardObj._rowMetaData.push(rowMetaDatum);
 		}
 		// Init diagonal meta data if its a square board
-		if(window.ttt.settings.BOARD_COLS == window.ttt.settings.BOARD_ROWS){
+		if(this._boardObj._cols == this._boardObj._rows){
 			var diagonals = ["TopLeftToBottomRight", "TopRightToBottomLeft"];
 			diagonals.forEach(function(diagonal){
 				var diagMetaDatum = window.sft.util.objects.clone(window.ttt.GameBoard.prototype.rowColDiagMetaData);
@@ -37,9 +37,9 @@ if(!window.ttt) window.ttt = {};
 	function _validateRowCol(rowCol){
 		if(
 			rowCol.col < 1 || 
-			rowCol.col > window.ttt.settings.BOARD_COLS ||
+			rowCol.col > this._boardObj._cols ||
 			rowCol.row < 1 || 
-			rowCol.row > window.ttt.settings.BOARD_ROWS
+			rowCol.row > this._boardObj._rows
 		){
 			throw "Invalid row/column";
 		}
@@ -55,7 +55,7 @@ if(!window.ttt) window.ttt = {};
 	};
 
 	GameBoardManager.prototype.addMark = function(mark, rowCol){
-		_validateRowCol(rowCol);
+		_validateRowCol.call(this, rowCol);
 		// Get boardData indices from rowCol
 		var ci = rowCol.col - 1;
 		var ri = rowCol.row - 1;
@@ -64,16 +64,16 @@ if(!window.ttt) window.ttt = {};
 		this._boardObj._colMetaData[ci].markCnt[mark]++;
 		this._boardObj._rowMetaData[ri].markCnt[mark]++;
 		// If square board, update diagonal meta data
-		if(window.ttt.settings.BOARD_COLS == window.ttt.settings.BOARD_ROWS){
+		if(this._boardObj._cols == this._boardObj._rows){
 			if(rowCol.col == rowCol.row) this._boardObj._diagMetaData["TopLeftToBottomRight"].markCnt[mark]++;
-			if(rowCol.col + rowCol.row == window.ttt.settings.BOARD_COLS + 1) this._boardObj._diagMetaData["TopRightToBottomLeft"].markCnt[mark]++;
+			if(rowCol.col + rowCol.row == this._boardObj._cols + 1) this._boardObj._diagMetaData["TopRightToBottomLeft"].markCnt[mark]++;
 		}
 		// Check if we have a full row or column or diagonal
 		if(
-			this._boardObj._colMetaData[ci].markCnt[mark] == window.ttt.settings.BOARD_ROWS || 
-			this._boardObj._rowMetaData[ri].markCnt[mark] == window.ttt.settings.BOARD_COLS ||
-			this._boardObj._diagMetaData["TopLeftToBottomRight"].markCnt[mark] == window.ttt.settings.BOARD_COLS ||
-			this._boardObj._diagMetaData["TopRightToBottomLeft"].markCnt[mark] == window.ttt.settings.BOARD_COLS
+			this._boardObj._colMetaData[ci].markCnt[mark] == this._boardObj._rows || 
+			this._boardObj._rowMetaData[ri].markCnt[mark] == this._boardObj._cols ||
+			this._boardObj._diagMetaData["TopLeftToBottomRight"].markCnt[mark] == this._boardObj._cols ||
+			this._boardObj._diagMetaData["TopRightToBottomLeft"].markCnt[mark] == this._boardObj._cols
 		){
 			this._boardObj._boardHasFullColRowOrDiag = true;
 			this._boardObj._fullColRowOrDiagMark = mark;
@@ -91,7 +91,7 @@ if(!window.ttt) window.ttt = {};
 	};
 
 	GameBoardManager.prototype.isBoxEmpty = function(rowCol){
-		_validateRowCol(rowCol);
+		_validateRowCol.call(this, rowCol);
 		// Get boardData indices from rowCol
 		var ci = rowCol.col - 1;
 		var ri = rowCol.row - 1;
@@ -99,20 +99,20 @@ if(!window.ttt) window.ttt = {};
 	};
 
 	GameBoardManager.prototype.isBoardFull = function(){
-		return this._boardObj._totalMarkCnt == window.ttt.settings.BOARD_ROWS * window.ttt.settings.BOARD_COLS;
+		return this._boardObj._totalMarkCnt == this._boardObj._rows * this._boardObj._cols;
 	};
 
 	GameBoardManager.prototype.getBoardString = function(){
 		// Build board top border
 		var boardString = "-";
-		for(var col = 1; col <= window.ttt.settings.BOARD_COLS; col++){
+		for(var col = 1; col <= this._boardObj._cols; col++){
 			boardString = boardString + "--";
 		}
 		boardString = boardString + "\n";
 		// Build board rows and cols
-		for(var row = 1; row <= window.ttt.settings.BOARD_ROWS; row++){
+		for(var row = 1; row <= this._boardObj._rows; row++){
 			var ri = row - 1;
-			for(var col = 1; col <= window.ttt.settings.BOARD_COLS; col++){
+			for(var col = 1; col <= this._boardObj._cols; col++){
 				var ci = col - 1;
 				var curMark = this._boardObj._boardData[ci][ri].mark;
 				if(col == 1) boardString = boardString + "|";
@@ -122,7 +122,7 @@ if(!window.ttt) window.ttt = {};
 		}
 		// Build board bottom border
 		boardString = boardString + "-";
-		for(var col = 1; col <= window.ttt.settings.BOARD_COLS; col++){
+		for(var col = 1; col <= this._boardObj._cols; col++){
 			boardString = boardString + "--";
 		}
 

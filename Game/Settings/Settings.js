@@ -18,6 +18,8 @@ if(!window.ttt) window.ttt = {};
 		this.BOARD_FX_HEIGHT_PX = 580;
 		this.BOARD_FX_LINE_WIDTH_PX = 10;
 		this.BOARD_FX_LINE_STYLE = "#000";
+		this.BOARD_FX_MARK_RADIUS = 80;
+		this.BOARD_FX_X_MARK_SIDE_ANGLE = Math.PI/4;
 	};
 
 	window.ttt.settings = new Settings();

@@ -2,21 +2,9 @@ if(!window.ttt) window.ttt = {};
 
 (function(){
 
-	function render(){
-		window.sft.fx.drawGrid({
-			topLeft: this._topLeftPoint,
-			width: this._width,
-			height: this._height,
-			cols: this._cols,
-			rows: this._rows,
-			lineWidth: this._lineWidth,
-			lineStyle: this._lineStyle
-		});
-	}
-
-	var GameBoardGraphics = function(){
+	var GameBoardGraphics = function(renderer, rendererContext){
 		// Attrs
-		this._attrRender = new window.sft.attrs.Render(this, render);
+		this._attrRender = new window.sft.attrs.Render(rendererContext, renderer);
 		// Graphical properties (static)
 		this._topLeftPoint = window.ttt.settings.BOARD_FX_TOP_LEFT; // units px
 		this._width = window.ttt.settings.BOARD_FX_WIDTH_PX;
@@ -25,6 +13,8 @@ if(!window.ttt) window.ttt = {};
 		this._lineStyle = window.ttt.settings.BOARD_FX_LINE_STYLE; 
 		this._cols = window.ttt.settings.BOARD_COLS;
 		this._rows = window.ttt.settings.BOARD_ROWS;
+		this._markRadius = window.ttt.settings.BOARD_FX_MARK_RADIUS;
+		this._xMarkSideAngle = window.ttt.settings.BOARD_FX_X_MARK_SIDE_ANGLE;
 	};
 
 	window.ttt.GameBoardGraphics = GameBoardGraphics;
