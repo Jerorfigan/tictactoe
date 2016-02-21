@@ -7,13 +7,8 @@ if(!window.sft) window.sft = {};
 
 	};
 
-	EventManager.prototype.create = function(evt){
-		if(events[evt]) throw "event already exists";
-		events[evt] = [];
-	};
-
 	EventManager.prototype.subscribe = function(evt, callback, context){
-		if(!events[evt]) throw "unknown event";
+		if(!events[evt]) events[evt] = [];
 		events[evt].push({
 			handlerWrapper: function(){
 				callback.apply(context, arguments)
