@@ -12,9 +12,16 @@ if(!window.ttt) window.ttt = {};
 		this._boardManager = new window.ttt.GameBoardManager();
 		// State variables
 		this._whosTurn = "X";
+		this._firstUpdate = true;
 	};
 
 	GameplayManager.prototype.update = function(){
+		// Since we immediately block on prompting player for turn action as first step of game logic, 
+		// skip first invocation to allow initial game state to be drawn
+		if(this._firstUpdate){
+			this._firstUpdate = false;
+			return;
+		}
 		if(!this.isGameOver()){
 			var rowCol = this._turnManager.getBoxChoice(this._whosTurn, this._boardManager);
 			this._boardManager.addMark(this._whosTurn, rowCol);
