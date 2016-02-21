@@ -24,7 +24,7 @@ if(!window.ttt) window.ttt = {};
 	GameGraphics.prototype.drawMark = function(settings){
 		if(settings.mark.type == "O"){
 			this.drawCircle({
-				center: target,
+				center: settings.target,
 				radius: settings.mark.radius,
 				lineWidth: settings.mark.lineWidth,
 				lineStyle: settings.mark.lineStyle
@@ -32,14 +32,14 @@ if(!window.ttt) window.ttt = {};
 		}else{	// Draw X
 			// Find the offset from target that lies on the encompassing circle at xSideAngle.
 			// We'll use this to derive the top right point of the X mark.
-			var topRightOffset = window.sft.Point(
-					settings.mark.radius * Math.cos(xSideAngle),
-					settings.mark.radius * Math.sin(xSideAngle)
+			var topRightOffset = new window.sft.Point(
+					settings.mark.radius * Math.cos(settings.mark.xSideAngle),
+					settings.mark.radius * Math.sin(settings.mark.xSideAngle)
 				);
 			// Derive topLeftOffset, bottomLeftOffset, bottomRightOffset from topRightOffset
-			var topLeftOffset = window.sft.Point(-topRightOffset.x(), topRightOffset.y());
-			var bottomLeftOffset = window.sft.Point(-topRightOffset.x(), -topRightOffset.y());
-			var bottomRightOffset = window.sft.Point(topRightOffset.x(), -topRightOffset.y());
+			var topLeftOffset = new window.sft.Point(-topRightOffset.x(), topRightOffset.y());
+			var bottomLeftOffset = new window.sft.Point(-topRightOffset.x(), -topRightOffset.y());
+			var bottomRightOffset = new window.sft.Point(topRightOffset.x(), -topRightOffset.y());
 			// Derive points from offsets
 			var topRight = settings.target.add(topRightOffset);
 			var topLeft = settings.target.add(topLeftOffset);
@@ -62,5 +62,6 @@ if(!window.ttt) window.ttt = {};
 		}
 	};
 
-	window.ttt.gamefx = GameGraphics;
+	window.ttt.GameGraphics = GameGraphics;
+	window.ttt.gamefx = new GameGraphics();
 })();
