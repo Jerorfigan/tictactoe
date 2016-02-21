@@ -54,12 +54,13 @@ if(!window.ttt) window.ttt = {};
 		for(var coli = 0; coli < board._cols; coli++){
 			for(var rowi = 0; rowi < board._rows; rowi++){
 				if(board._boardData[coli][rowi].mark){
+					var markType = board._boardData[coli][rowi].mark;
 					window.ttt.gamefx.drawMark({
 						mark: {
-							type: board._boardData[coli][rowi].mark,
+							type: markType,
 							lineWidth: this._boardGraphicsObj._lineWidth,
-							lineStyle: this._boardGraphicsObj._lineStyle,
-							radius: this._boardGraphicsObj._markRadius,
+							lineStyle: this._boardGraphicsObj._markLineStyle,
+							radius: markType == "X" ? this._boardGraphicsObj._xMarkRadius : this._boardGraphicsObj._oMarkRadius,
 							xSideAngle: this._boardGraphicsObj._xMarkSideAngle
 						},
 						target: this.getSquareCenterPoint(coli + 1, rowi + 1)
