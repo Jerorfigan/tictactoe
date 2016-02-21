@@ -25,9 +25,17 @@ if(!window.ttt) window.ttt = {};
 		if(!this.isGameOver()){
 			var rowCol = this._turnManager.getBoxChoice(this._whosTurn, this._boardManager);
 			if(!rowCol) return; // The player has yet to select a square, skip rest of update
-			this._boardManager.addMark(this._whosTurn, rowCol);
-			this._whosTurn = this._whosTurn == "X" ? "O" : "X";
-			console.log(this._boardManager.getBoardString());
+			try{
+				this._boardManager.addMark(this._whosTurn, rowCol);
+				this._whosTurn = this._whosTurn == "X" ? "O" : "X";
+			}catch(e){ 
+				// Swallow error thrown by addMark when player chooses an already occupied square to place a mark,
+				// player will be forced to repick next update
+				if(e == "Row/column not empty"){
+				}else{
+					throw e;
+				}
+			}
 		}else{
 			this.handleGameEnd();
 			window.sft.objMgr.forget("gameplayMgr");

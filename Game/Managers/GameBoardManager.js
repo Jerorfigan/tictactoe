@@ -56,6 +56,9 @@ if(!window.ttt) window.ttt = {};
 
 	GameBoardManager.prototype.addMark = function(mark, rowCol){
 		_validateRowCol.call(this, rowCol);
+		if(this._boardObj._boardData[rowCol.col - 1][rowCol.row - 1].mark){
+			throw "Row/column not empty";
+		}
 		// Get boardData indices from rowCol
 		var ci = rowCol.col - 1;
 		var ri = rowCol.row - 1;
