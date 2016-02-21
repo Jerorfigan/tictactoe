@@ -16,19 +16,19 @@ if(!window.ttt) window.ttt = {};
 			var inputValid = false;
 			var boxChoice = null;
 			while(!inputValid){
-				try{
+				//try{
 					var boxChoiceStr = window.prompt("Choose a box to make a mark (ex: 1,3 => first column, third row):");
 					boxChoice = boxChoiceStr.split(",").map(function(val){ return parseInt(val); });
 					if(boxChoice.length == 2 && typeof boxChoice[0] == "number" && typeof boxChoice[1] == "number"){
 						if(boardMgr.isBoxEmpty({col: boxChoice[0], row: boxChoice[1]})){
 							inputValid = true;
 						}else{
-							console.log("Box is not empty.");
+							throw "Box is not empty.";
 						}
 					}else{
-						console.log("Invalid box choice.");
+						throw "Invalid box choice.";
 					}
-				}catch(e){ /* swallow error from isBoxEmpty when invalid row/col present */ }
+				//}catch(e){ /* swallow error from isBoxEmpty when invalid row/col present */ }
 			}
 			return {col: boxChoice[0], row: boxChoice[1]};
 		}else{
