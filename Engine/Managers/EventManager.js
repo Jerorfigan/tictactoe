@@ -1,12 +1,15 @@
 if(!window.sft) window.sft = {};
 
 (function(){
-	var events = {
-		"testEvent": []
-	};
+	var events = {};
 
 	var EventManager = function(){
 
+	};
+
+	EventManager.prototype.create = function(evt){
+		if(events[evt]) throw "event already exists";
+		events[evt] = [];
 	};
 
 	EventManager.prototype.subscribe = function(evt, callback, context){
