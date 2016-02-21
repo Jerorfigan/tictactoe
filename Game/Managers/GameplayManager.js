@@ -24,6 +24,7 @@ if(!window.ttt) window.ttt = {};
 		}
 		if(!this.isGameOver()){
 			var rowCol = this._turnManager.getBoxChoice(this._whosTurn, this._boardManager);
+			if(!rowCol) return; // The player has yet to select a square, skip rest of update
 			this._boardManager.addMark(this._whosTurn, rowCol);
 			this._whosTurn = this._whosTurn == "X" ? "O" : "X";
 			console.log(this._boardManager.getBoardString());

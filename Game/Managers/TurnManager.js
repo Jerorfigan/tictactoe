@@ -5,32 +5,26 @@ if(!window.ttt) window.ttt = {};
 	/* Constructor */
 	/***************/
 	var TurnManager = function(){
+		this._lastClickedSquare = null;
+		window.sft.evt.subscribe("BoardClicked", function(targetSquare){
+			this._lastClickedSquare = {
+				col: targetSquare.col,
+				row: targetSquare.row
+			};
+		}, this);
 	};
 
 	TurnManager.prototype.getBoxChoice = function(whosTurn, boardMgr){
 		if(whosTurn == 'X'){
-			// X is the player, so prompt for player input
-			/*window.sft.input.waitForMouseInput("canvas", function(evt){
-				// TODO: translate mouse click to gameboard 
-			}, this);*/
-			var inputValid = false;
-			var boxChoice = null;
-			while(!inputValid){
-				//try{
-					var boxChoiceStr = window.prompt("Choose a box to make a mark (ex: 1,3 => first column, third row):");
-					boxChoice = boxChoiceStr.split(",").map(function(val){ return parseInt(val); });
-					if(boxChoice.length == 2 && typeof boxChoice[0] == "number" && typeof boxChoice[1] == "number"){
-						if(boardMgr.isBoxEmpty({col: boxChoice[0], row: boxChoice[1]})){
-							inputValid = true;
-						}else{
-							throw "Box is not empty.";
-						}
-					}else{
-						throw "Invalid box choice.";
-					}
-				//}catch(e){ /* swallow error from isBoxEmpty when invalid row/col present */ }
+			// X is the player, so poll for player input by checking to see if _lastClickedSquare is set.
+			// If it is, return that as the chosen square. Otherwise return null, indicating no square 
+			// has been chosen as of yet.
+			var chosenSquare = null;
+			if(this._lastClickedSquare){
+				chosenSquare = window.sft.util.objects.clone(this._lastClickedSquare);
+				this._lastClickedSquare = null;	
 			}
-			return {col: boxChoice[0], row: boxChoice[1]};
+			return chosenSquare;
 		}else{
 			// O is the computer, so determine move with algorithm. Algorithm:
 			// Place mark at first empty square encountered, starting at top left box of board,

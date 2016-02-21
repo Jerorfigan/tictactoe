@@ -2,8 +2,24 @@ if(!window.ttt) window.ttt = {};
 
 (function(){
 
+	function registerCanvasClickListener(){
+		var canvas = window.sft.fx.canvas(),
+			gameBoardFxMgr = this;
+		canvas.addEventListener("click", function(evt){
+			var canvasClickTarget = window.sft.fx.windowCoords2canvasPoint(evt.clientX, evt.clientY);
+			if(gameBoardFxMgr.isCanvasPointWithinBoardBoundary(canvasClickTarget)){
+				var targetSquare = gameBoardFxMgr.getSquareEnclosingCanvasPoint(canvasClickTarget);
+				window.sft.evt.fire("BoardClicked", targetSquare);
+			}
+		});
+	}
+
+	/***************/
+	/* Constructor */
+	/***************/
 	var GameBoardGraphicsManager = function(){
 		this._boardGraphicsObj = null;
+		registerCanvasClickListener.call(this);
 	};
 
 	GameBoardGraphicsManager.prototype.update = function(){
@@ -64,6 +80,24 @@ if(!window.ttt) window.ttt = {};
 				this._boardGraphicsObj._topLeftPoint.x() + colHalfWidth + (col - 1) * colWidth,
 				this._boardGraphicsObj._topLeftPoint.y() + rowHalfWidth + (row - 1) * rowWidth
 			);
+	};
+
+	/* Gets the row and column of the board square enclosing a particular point on the canvas. */
+	GameBoardGraphicsManager.prototype.getSquareEnclosingCanvasPoint = function(canvasPoint){
+		if(!this.isCanvasPointWithinBoardBoundary(canvasPoint)) throw "Point not contained by board";
+		var leftBoardBoundry = this._boardGraphicsObj._topLeftPoint.x();
+		var topBoardBoundry = this._boardGraphicsObj._topLeftPoint.y();
+		var col = Math.floor((canvasPoint.x() - leftBoardBoundry) / this._boardGraphicsObj._colWidth) + 1,
+			row = Math.floor((canvasPoint.y() - topBoardBoundry) / this._boardGraphicsObj._rowWidth) + 1;
+
+		return {col: col, row: row};
+	};
+
+	GameBoardGraphicsManager.prototype.isCanvasPointWithinBoardBoundary = function(canvasPoint){
+		return canvasPoint.x() >= this._boardGraphicsObj._topLeftPoint.x() &&
+			canvasPoint.x() <= this._boardGraphicsObj._bottomRightPoint.x() &&
+			canvasPoint.y() >= this._boardGraphicsObj._topLeftPoint.y() &&
+			canvasPoint.y() <= this._boardGraphicsObj._bottomRightPoint.y();
 	};
 
 	window.ttt.GameBoardGraphicsManager = GameBoardGraphicsManager;
