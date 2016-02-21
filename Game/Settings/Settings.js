@@ -13,7 +13,7 @@ if(!window.ttt) window.ttt = {};
 		this.BOARD_COLS = 3;
 		this.BOARD_ROWS = 3;
 		// Graphical
-		this.BOARD_FX_TOP_LEFT = window.sft.Point(10,10);
+		this.BOARD_FX_TOP_LEFT = new window.sft.Point(10,10);
 		this.BOARD_FX_WIDTH_PX = 580;
 		this.BOARD_FX_HEIGHT_PX = 580;
 		this.BOARD_FX_LINE_WIDTH_PX = 10;
